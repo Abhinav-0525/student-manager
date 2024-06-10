@@ -20,6 +20,13 @@ import RegisterStudent from './Admin/RegisterStudent';
 import StudentToDo from './Student/StudentToDo';
 import CreateClass from './Admin/CreateClass';
 import Schedule from './Student/Schedule';
+import GetOtp from './Components/GetOtp';
+import OtpPage from './Components/OtpPage';
+import ChangePassword from './Components/ChangePassword';
+import Assignments from './Coord/Assignments';
+import ViewAssignments from './Student/ViewAssignments';
+import Submissions from './Coord/Submissions';
+import DisplayStudents from './Coord/DisplayStudents';
 
 
 function App() {
@@ -40,6 +47,26 @@ function App() {
         {
           path:'announce',
           element:<CoordAnnouce/>,
+        },
+        {
+          path:'assign',
+          element:<Assignments/>
+        },
+        {
+          path:'view-submissions/:id',
+          element:<Submissions/>
+        },
+        {
+          path:'students',
+          element:<DisplayStudents/>
+        },
+        {
+          path:'student/:rollno',
+          element:<StudentDetails/>
+        },
+        {
+          path:"password",
+          element:<ChangePassword/>,
         }
       ]
     },
@@ -62,6 +89,14 @@ function App() {
         {
           path:'class',
           element:<Schedule/>
+        },
+        {
+          path:"password",
+          element:<ChangePassword/>,
+        },
+        {
+          path:'assign',
+          element:<ViewAssignments/>
         }
       ]
     },

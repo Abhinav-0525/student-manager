@@ -4,8 +4,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function StudentList() {
-    
-
     const [students, setStudents] = useState([]);
     let navigate = useNavigate();
     let i=1;

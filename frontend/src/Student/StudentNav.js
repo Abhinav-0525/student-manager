@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -23,6 +23,20 @@ import SpeedIcon from '@mui/icons-material/Speed';
 import SubjectIcon from '@mui/icons-material/Subject';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import { Link } from 'react-router-dom'; // Import Link from React Router
+import { useSelector } from 'react-redux';
+import ProfilePic from '../Assets/profile_pic.webp'
+import { useNavigate } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { deepOrange } from '@mui/material/colors';
+import { resetState } from '../Redux/Slices/userLoginSlice';
+import { useDispatch } from 'react-redux';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import LogoutIcon from '@mui/icons-material/Logout';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+
 
 const drawerWidth = 240;
 
@@ -94,6 +108,20 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 function StudentNav() {
     const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+  const [user, setUser] = useState({ name: 'User Name', avatar: '' });
+  let {currentUser} = useSelector(state => state.allUserLoginReducer);
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchUser = () => {
+      let userData = currentUser;
+      setUser({name: userData.name, avatar: userData.profilePhoto});
+    };
+    fetchUser();
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -102,6 +130,25 @@ function StudentNav() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleProfileClick = () => {
+    navigate('/student/password'); 
+    handleMenuClose();
+  };
+
+  const handleLogoutClick = () =>{
+    //navigate('/student/logout');
+    handleMenuClose();
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -119,9 +166,37 @@ function StudentNav() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }} >
             Student Dashboard
           </Typography>
+
+
+          <Typography variant="h6" noWrap component="div" sx={{ marginRight: 2 }}>
+            {user.name}
+          </Typography>
+          <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
+            <Avatar sx={{ bgcolor: deepOrange[500] }} src={user.avatar|| ProfilePic}>
+              {user.name.charAt(0)}
+            </Avatar>
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={openMenu}
+            onClose={handleMenuClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <MenuItem onClick={handleProfileClick}>Change Password</MenuItem>
+            <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+          </Menu>
+
+
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -155,10 +230,10 @@ function StudentNav() {
             </ListItemButton>
           </ListItem>
 
-          {/* <ListItem disablePadding sx={{ display: 'block' }}>
+          <ListItem disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               component={Link}
-              to="assignments"
+              to="assign"
               sx={{
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',
@@ -176,7 +251,7 @@ function StudentNav() {
               </ListItemIcon>
               <ListItemText primary="Assignments" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem> */}
+          </ListItem>
 
           {/* <ListItem disablePadding sx={{ display: 'block' }}>
             <ListItemButton
@@ -241,7 +316,7 @@ function StudentNav() {
                   justifyContent: 'center',
                 }}
               >
-                <SubjectIcon />
+                <CampaignIcon />
               </ListItemIcon>
               <ListItemText primary="Announcements" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
@@ -287,9 +362,9 @@ function StudentNav() {
                   justifyContent: 'center',
                 }}
               >
-                <CreditScoreIcon />
+                <EventNoteIcon/>
               </ListItemIcon>
-              <ListItemText primary="Class" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Schedule" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
 
@@ -311,7 +386,7 @@ function StudentNav() {
                   justifyContent: 'center',
                 }}
               >
-                <CreditScoreIcon />
+                <EditNoteIcon />
               </ListItemIcon>
               <ListItemText primary="To-do" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
@@ -324,6 +399,8 @@ function StudentNav() {
               to="/"
               onClick={() => {
                 localStorage.removeItem('token');
+                localStorage.removeItem('persist:root');
+                dispatch(resetState())
               }}
               sx={{
                 minHeight: 48,
@@ -338,7 +415,7 @@ function StudentNav() {
                   justifyContent: 'center',
                 }}
               >
-               <AssignmentIcon />
+               <LogoutIcon />
               </ListItemIcon>
               <ListItemText primary="Log Out" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>

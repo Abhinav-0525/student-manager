@@ -26,6 +26,10 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import ChatIcon from '@mui/icons-material/Chat';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { Link } from 'react-router-dom'; // Import Link from React Router
+import { resetState } from '../Redux/Slices/userLoginSlice';
+import { useDispatch } from 'react-redux';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import AddIcon from '@mui/icons-material/Add';
 
 const drawerWidth = 240;
 
@@ -97,6 +101,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 function AdminNav() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  let dispatch = useDispatch();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -270,7 +275,7 @@ function AdminNav() {
                   justifyContent: 'center',
                 }}
               >
-               <LibraryBooksIcon/>
+               <AddIcon/>
               </ListItemIcon>
               <ListItemText primary="Create Class" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
@@ -320,7 +325,7 @@ function AdminNav() {
                   justifyContent: 'center',
                 }}
               >
-               <ChatIcon />
+               <CampaignIcon />
               </ListItemIcon>
               <ListItemText primary="Announcements" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
@@ -333,6 +338,8 @@ function AdminNav() {
               to="/"
               onClick={() => {
                 localStorage.removeItem("token");
+                localStorage.removeItem("persist:root");
+                dispatch(resetState())
               }}
               sx={{
                 minHeight: 48,

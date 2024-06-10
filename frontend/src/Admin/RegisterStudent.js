@@ -1,26 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {useForm} from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Snackbar } from '@mui/material';
 
 
 function RegisterStudent() {
     let{register,handleSubmit,formState:{errors}} = useForm();
+    const [regiSnack, setRegiSnack] = useState(false);
     let navigate = useNavigate();
 
     async function handleSubmitButton(obj){
         obj.hasPhoto = "false";
         obj.profilePhoto = "";
         obj.todos = [];
+        obj.classId = obj.course+obj.section+obj.year;
         let res = await axios.post("http://localhost:4000/admin-api/student",obj)
         if(res.data.message === 'Student already exists'){
             console.log(res.data.message);
         }
         else{
             console.log(res.data.message);
-            navigate('/admin/new-student');
+            //navigate('/admin/new-student');
+            //window.location.reload();
+            setRegiSnack(true);
         }
         console.log(obj);
+    }
+
+    function handleClose(event){
+        setRegiSnack(false);
     }
 
 
@@ -101,7 +110,7 @@ function RegisterStudent() {
                     <select id="section" className='form-select' {...register('section',{required:true})} defaultValue="">
                         <option value="" disabled >Choose section</option>
                         <option value="A">A</option>
-                        <option value=" B"> B</option>
+                        <option value="B"> B</option>
                         <option value="C"> C</option>
                         <option value="D"> D</option>
                     </select>
@@ -112,11 +121,10 @@ function RegisterStudent() {
                     <label htmlFor='year' >Year </label>
                     <select id="year" className='form-select' {...register('year',{required:true})} defaultValue="">
                         <option value="" disabled >Choose Course</option>
-                        <option value="I"> I</option>
-                        <option value=" II">  II</option>
-                        <option value=" III"> III</option>  
-                        <option value=" IV"> IV</option>
-
+                        <option value="1"> I</option>
+                        <option value="2">  II</option>
+                        <option value="3"> III</option>  
+                        <option value="4"> IV</option>
                     </select>
                     {errors.year && <p className='text-warning mb-0'>This field is required</p>}
                 </div>
@@ -163,6 +171,25 @@ function RegisterStudent() {
             </div>
             </div>
             </div>
+
+            <Snackbar 
+            anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+            open={regiSnack}
+            autoHideDuration={4000}
+            severity="success"
+            onClose={handleClose}
+            message="Student registered Successfully!"
+            ContentProps={{
+                sx:{
+                  border: "1px solid black",
+                  //borderRadius: "40px",
+                //   color: "black",
+                  //bgcolor: "lightseagreen",
+                  fontWeight: "bold",
+                }
+             }} >
+        </Snackbar>
+
         </div>
         </div>
     );

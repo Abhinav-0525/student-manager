@@ -3,10 +3,14 @@ import './CreateClass.css'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import Box from '@mui/material/Box';
+import { Snackbar } from '@mui/material';
+
 
 function CreateClass() {
 
     let {handleSubmit, register, formState: { errors }} = useForm();
+    const [createSnack, setCreateSnack] = useState(false);
 
     async function handleFormSubmit(data) {
         let monday = ["Monday",data.Mon1Period, data.Mon2Period, data.Mon3Period,"Lunch", data.Mon4Period, data.Mon5Period, data.Mon6Period];
@@ -29,16 +33,22 @@ function CreateClass() {
         console.log(res)
         if(res.data.message === 'Class created'){
             console.log('Class created')
+            setCreateSnack(true);
         }
         if(res.data.message === 'Class already exists'){
             console.log('Class already exists')
         }
     }
 
+    function handleClose(event){
+        setCreateSnack(false);
+    }
+
 
   return (
     <div className='mt-5'>
-        <h3 className='text-center mt-5'>Create Class</h3>
+        <Box height={80}></Box>
+        <h3 className='text-center'>Create Class</h3>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
             <div className='d-flex p-3 m-3'>
                 <select className='form-select me-3'  {...register("branch", { required: true })}>
@@ -138,6 +148,25 @@ function CreateClass() {
             
             <button type='submit' className='btn btn-primary'>Create Class</button>
         </form>
+
+        <Snackbar 
+            anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+            open={createSnack}
+            autoHideDuration={4000}
+            severity="success"
+            onClose={handleClose}
+            message="Class has been Created!"
+            ContentProps={{
+                sx:{
+                  border: "1px solid black",
+                  //borderRadius: "40px",
+                //   color: "black",
+                  //bgcolor: "lightseagreen",
+                  fontWeight: "bold",
+                }
+             }} >
+        </Snackbar>
+
     </div>
   )
 }

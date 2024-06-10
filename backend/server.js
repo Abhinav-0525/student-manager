@@ -7,6 +7,9 @@ const cors = require('cors');
 //Provide the react build to the server
 app.use(exp.static(path.join(__dirname,'../frontend/build')));
 
+//make the files folder static
+app.use('/files',exp.static('files'))
+
 //To parse the body of req
 app.use(exp.json());
 
@@ -17,6 +20,7 @@ app.use(cors());
 const coordApp = require('./APIs/coord-api')
 const studentApp = require('./APIs/student-api')
 const adminApp = require('./APIs/admin-api')
+
 
 //importing mongoclint
 const mongoClint = require('mongodb').MongoClient;
@@ -32,12 +36,14 @@ mongoClint.connect(process.env.URL)
     const adminCollection = db.collection('adminCollection');
     const announcementCollection = db.collection('announcementCollection');
     const classCollection = db.collection('classCollection');
+    const assignmentCollection = db.collection('assignmentCollection');
     //Setting collection object to app to make it available to other APIs
     app.set('coordCollection',coordCollection);
     app.set('studentCollection',studentCollection);
     app.set('adminCollection',adminCollection);
     app.set('announcementCollection',announcementCollection);
     app.set('classCollection',classCollection);
+    app.set('assignmentCollection',assignmentCollection);
     console.log('Connected to db');
 })
 .catch(err=>{
@@ -69,19 +75,19 @@ app.listen(process.env.PORT,()=>{
 
 
 // features to implement:
-// implement forgot password - forgot password and otp input components
+// implement change password with otp verification
 // create class with class id, teacher list, subjects and student list
 // make protected routes
 // connect frontend and backend  -- done
 // implement middleware to prevent refresh -- done
 // change profile pic of students -- done
 //implement todo list for students -- done
+// Add photo to profile -- done
 //new students and teachers doesnt have the property of class id
 
 //teacher password - tfrN0VqQ5/
-//student password - /Oh?fWnXII
+//student password - /Oh?fWnXII -- 1234567
 //admin password - wyvz7#hf!y
 
 //Future improvements:
-// Add photo to profile
 // Search bar to search for students and teachers

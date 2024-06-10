@@ -19,21 +19,21 @@
     margin-bottom: 20px;
   }
   
-  .card {
+  .cards-4 {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
   }
   
-  .card input {
+  .cards-4 input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     flex-grow: 1;
   }
   
-  .card button {
+  .cards-4 button {
     padding: 10px;
     border: none;
     background-color: #28a745;
@@ -42,7 +42,7 @@
     cursor: pointer;
   }
   
-  .card button:hover {
+  .cards-4 button:hover {
     background-color: #218838;
   }
   
@@ -71,7 +71,7 @@
       padding: 10px;
     }
   
-    .card {
+    .cards-4 {
       padding: 10px;
     }
   

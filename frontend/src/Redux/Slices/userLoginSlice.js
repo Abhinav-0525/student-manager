@@ -83,6 +83,6 @@ export const userLoginSlice = createSlice({
     })
 })
 
-const {resetState} = userLoginSlice.actions;
+export const {resetState} = userLoginSlice.actions;
 
 export default userLoginSlice.reducer;   //exporting the root reducers

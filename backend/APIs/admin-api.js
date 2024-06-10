@@ -3,8 +3,8 @@ const adminApp = exp.Router();
 const expressAsyncHandler = require('express-async-handler');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const passGen = require('../PasswordGen'); // password generator function
-const mailer = require('../EmailSender'); // mailer function - this accepts the email and password of the student and sends the mail
+const {passGen} = require('../PasswordGen'); // password generator function
+const {mailer} = require('../EmailSender'); // mailer function - this accepts the email and password of the student and sends the mail
 require('dotenv').config();
 
 let studentCollection, coordCollection, adminCollection;

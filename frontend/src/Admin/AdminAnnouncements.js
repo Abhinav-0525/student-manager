@@ -11,7 +11,7 @@ function AdminAnnouncements() {
             <div>
               <AddAnnouncements/>
             </div>
-            <div className='mt-4'>
+            <div className='mt-5'>
               <ViewAnnouncements/>
             </div>
     

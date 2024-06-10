@@ -31,7 +31,7 @@ function Login() {
   }
 
   useEffect(()=>{
-      if(loginStatus){
+      if(loginStatus===true){
         if(userType==='coord'){
           navigate('coord')
         }

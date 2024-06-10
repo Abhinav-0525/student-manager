@@ -29,4 +29,22 @@ async function main(mailID, password) {
   console.log("Message sent: %s", info.messageId);
 }
 
-module.exports = main;
+async function changePassword(mailId, otp){
+  const info = await transporter.sendMail({
+    from: {
+        name:"Student-manager",
+        address: process.env.MAIL, //sender email
+    }, 
+    to: mailId, // list of receivers
+    subject: "Hello, We are from the Student manager team.", // Subject line
+    text: "Your OTP for password reset is: " + otp + "\n\n Please do not share this with anyone. \n\n Thanks and Regards \n Student-manager", // plain text body
+    html: "<b>Your OTP for password reset is: " + otp + "<br><br> Please do not share this with anyone. <br><br> Thanks and Regards <br> Student-manager</b>", // html body
+  })
+  
+  console.log("Message sent: %s", info.messageId);
+}
+
+module.exports ={
+  mailer: main,
+  changePassword: changePassword
+} 

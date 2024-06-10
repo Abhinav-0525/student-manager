@@ -3,7 +3,25 @@ const studentApp = express.Router();
 const expressAsyncHandler = require('express-async-handler');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const {otpGen} = require('../PasswordGen')
+const {changePassword} = require('../EmailSender')
+const {ObjectId} = require('mongodb');
 require('dotenv').config();
+const multer = require('multer');
+
+
+//Defining the storage for images
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './files')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now()
+      cb(null, uniqueSuffix+file.originalname)
+    }
+  })
+  
+const upload = multer({ storage: storage })
 
 
 //get student collection
@@ -12,6 +30,7 @@ studentApp.use((req, res, next) => {
     studentCollection = req.app.get('studentCollection');
     announcementCollection = req.app.get('announcementCollection');
     classCollection = req.app.get('classCollection');
+    assignmentCollection = req.app.get('assignmentCollection');
     next();
 })
 
@@ -54,9 +73,16 @@ studentApp.get('/announce',expressAsyncHandler(async(req,res)=>{
 //update details by adding profile picture
 studentApp.put('/profile-photo', expressAsyncHandler(async (req, res) => {
     let newStudent = req.body;
-    let result = await studentCollection.updateOne({email: newStudent.email}, {$set: {profilePhoto: newStudent.profilePhoto, hasPhoto: "true"}});
-    //console.log(result);
-    res.send({message: "Profile photo updated"});
+    try{
+        let result = await studentCollection.updateOne({email: newStudent.email}, {$set: {profilePhoto: newStudent.profilePhoto, hasPhoto: true}});
+        console.log(result);
+        res.send({message: "Profile photo updated"});
+    }
+    catch(err){
+        console.log(err);
+        res.send({message: "Profile photo not updated"});
+    }
+    
 }))
 
 //get todos
@@ -99,6 +125,54 @@ studentApp.get('/classInfo/:classId', expressAsyncHandler(async (req, res) => {
     let dbClassInfo = await classCollection.findOne({classId: classId});
     res.send({message: "Class details found", payload: dbClassInfo});
 }))
+
+//send otp -- not required for now
+studentApp.get('/otp/:email', expressAsyncHandler(async (req, res) => {
+    let email = req.params.email;
+    let otp = otpGen();
+    changePassword(email, otp);
+    res.send({message: "OTP sent", payload: otp});
+}))
+
+//change password
+studentApp.put('/changePassword', expressAsyncHandler(async (req, res) => {
+    let body = req.body;
+    let dbstudent = await studentCollection.findOne({email: body.email});
+    let status = await bcryptjs.compare(body.oldPassword, dbstudent.password);
+    if(status){
+        let newPassword = await bcryptjs.hash(body.newPassword1, 8);
+        let result = await studentCollection.updateOne({email: body.email}, {$set: {password: newPassword}});
+        //console.log(result)
+        res.send({message: "Password changed"});
+    }
+    else{
+        res.send({message: "Wrong old password"});
+    }
+}))
+
+//get assignments
+studentApp.get('/assignment/:classId', expressAsyncHandler(async (req, res) => {
+    let classId = req.params.classId;
+    let dbAssignments = await assignmentCollection.find({classId: classId}).toArray();
+    res.send({message: "Assignments found", payload: dbAssignments});
+}))
+
+//upload assignment file into the submissions array
+studentApp.put('/assignment/:email',upload.single('file'), expressAsyncHandler(async (req, res) => {
+    let email = req.params.email;
+    let dbstudent = await studentCollection.findOne({email: email});
+    let assignment = {
+        name: dbstudent.name,
+        rollno: dbstudent.rollno,
+        file: req.file.filename,
+        uploadedOn: new Date().setUTCHours(0, 0, 0, 0)
+    }
+    console.log(req.body.id)
+    let result = await assignmentCollection.updateOne({_id: new ObjectId(req.body.id)}, {$addToSet: {submissions: assignment}});
+    console.log(result)
+    res.send({message: "Assignment uploaded"});
+}))
+
 
 
 module.exports = studentApp;

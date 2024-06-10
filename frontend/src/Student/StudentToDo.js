@@ -33,6 +33,7 @@ function StudentToDo() {
         let res =  await axios.put(`http://localhost:4000/student-api/todo/${currentUser.email}`, newTodo)
         if(res.data.message === "Todo added"){
             console.log("Todo added");
+            window.location.reload();
         }
     }
 
@@ -64,7 +65,7 @@ function StudentToDo() {
         {/* <Box height={100} /> */}
     <div className="todo-container d-block m-auto">
     <h1 className="text-center mt-5 mb-4">Todo List</h1>
-    <div className="card shadow bord ">
+    <div className="card cards-4 shadow bord ">
       <div >
         <form className="p-3 m-3 d-flex justify-content-between" onSubmit={handleSubmit}>
             <input

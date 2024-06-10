@@ -5,7 +5,7 @@ import Box  from '@mui/material/Box';
 
 function Schedule() {
 
-    let [classInfo, setClassInfo] = useState({});
+    let [classInfo, setClassInfo] = useState({ timeTable: [], classId: "", branch: "", year: "", section: ""});
     let {currentUser} = useSelector(state => state.allUserLoginReducer)
 
     async function getClassInfo(){
@@ -13,7 +13,7 @@ function Schedule() {
         
         console.log(res)
         if(res.data.message === "Class details found"){
-            setClassInfo({})
+            setClassInfo({...res.data.payload});
             console.log(res.data.payload)
             console.log(classInfo)
             console.log("Class details found")
@@ -27,13 +27,13 @@ function Schedule() {
   return (
     <div>
         <Box height={100} />
-        {classInfo === null?
+        {classInfo.timeTable.length === 0?
         <>
             <h2 className='text-center text-danger'>No Class found</h2>
         </>
         :
         <>
-            <h1 className='text-center mt-5 p-4'>{classInfo.year}-year {classInfo.branch}-{classInfo.section} Schedule</h1>
+            <h1 className='text-center mt-2 p-4'>{classInfo.year}-year {classInfo.branch}-{classInfo.section} Schedule</h1>
             <div className='container'>
                 <table className='table table-secondary table-hover table-responsive table-striped text-center'>
                     {/* <thead>

@@ -1,0 +1,22 @@
+.otp-input {
+    font-size: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.4rem;
+    width: 2.5rem;
+    border: none;
+    background-color: #d6dfe8;
+    margin: 0.3rem;
+  }
+  .bord{
+    border:2px solid #96caeb;
+    height: 350px;
+    background-color: white;
+  }
+  .button{
+    width: 280px;
+    height: 45px;
+    /* background-color:#33519e; */
+    color:white;
+    border: none;
+    font-size: medium;
+  }

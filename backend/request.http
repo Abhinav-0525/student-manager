@@ -106,8 +106,8 @@ PUT http://localhost:4000/coord-api/update
 Content-Type: application/json
 
 {
-    "name": "srinitha",
-    "email": "srinithadevaraneni21@gmail.com",
+    "name": "abhinav",
+    "email": "abhinavsai.janipireddy@gmail.com",
     "rollno": "22071A1227",
     "password": "123456",
     "phone": "1234567890",
@@ -117,7 +117,8 @@ Content-Type: application/json
     "course": "test course",
     "yearOfJoin": "2022",
     "designation": "test designation",
-    "qualification": "test qualification"
+    "qualification": "test qualification",
+    "classId": "ITA1"
 }
 
 ### search for a student by admin
@@ -185,4 +186,34 @@ Content-Type: application/json
 ### get class details
 GET http://localhost:4000/student-api/classInfo/ITA1
 
+### send otp
+GET http://localhost:4000/student-api/otp/abhinavsai.janipireddy@gmail.com
+
+### change Password
+PUT http://localhost:4000/student-api/changePassword
+Content-Type: application/json
+
+{
+    "email": "abhinavsai.janipireddy@gmail.com",
+    "oldPassword": "/Oh?fWnXII",
+    "newPassword1": "1234567"
+}
+
+### create assignment
+POST http://localhost:4000/coord-api/assignment
+Content-Type: application/json
+
+{
+    "content": "Please complete it by this week",
+    "date": "{{$datetime iso8601}}",
+    "creator":"MS. saraswathi",
+    "submissionDate": "{{$datetime iso8601}}",
+    "classId": "ITA1",
+    "submissions": []
+}
+
+### get assignments
+GET http://localhost:4000/student-api/assignment/ITA1
+
+### 
 

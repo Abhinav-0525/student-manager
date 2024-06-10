@@ -1,22 +1,33 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useForm} from 'react-hook-form'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { Snackbar } from '@mui/material';
+
 
 function RegisterCoord() {
     let{register,handleSubmit,formState:{errors}} = useForm();
+    const [regiSnack, setRegiSnack] = useState(false);
     let navigate = useNavigate();
 
     async function handleSubmitButton(obj){
+        obj.classId = obj.branch+obj.section+obj.year;
+        obj.profilePhoto = ""
+        obj.hasPhoto = false;
         let res = await axios.post("http://localhost:4000/admin-api/coord",obj)
         if(res.data.message === 'Coordinator already exists'){
             console.log(res.data.message);
         }
         else{
             console.log(res.data.message);
-            navigate('/admin/new-coord');
+            //navigate('/admin/new-coord');
+            setRegiSnack(true);
         }
         console.log(obj);
+    }
+
+    function handleClose(event){
+        setRegiSnack(false);
     }
 
   return (
@@ -102,7 +113,7 @@ function RegisterCoord() {
                     {errors.designation && <p className='text-warning mb-0'>please mention designation</p>}
                 </div>
 
-                <div className='mb-2'>
+                {/* <div className='mb-2'>
                     <label htmlFor='course' >Course </label>
                     <select id="course" className='form-select' {...register('course',{required:true})} defaultValue="">
                         <option value="" disabled >Choose Option</option>
@@ -111,7 +122,7 @@ function RegisterCoord() {
                         <option value="computer organisation">Computer Organisation</option>
                     </select>
                     {errors.course && <p className='text-warning mb-0'>This field is required</p>}
-                </div>
+                </div> */}
 
                 <div className='mb-2'>
                     <label htmlFor='qualification' >Qualification </label>
@@ -124,20 +135,80 @@ function RegisterCoord() {
                     {errors.qualification && <p className='text-warning mb-0'>This field is required</p>}
                 </div>
 
+                
                 <div>
                 <label htmlFor='address'>Address </label>
                     <textarea className='form-control' id="address" rows="2" {...register('address',{required:true})}></textarea>
                     {errors.address && <p className='text-warning mb-0'>please give address</p>}
                 </div>
-                <div className='d-flex justify-content-center pt-4'>
-                <button className='btn btn-primary button '>Submit</button>
-                </div>
+
+
                
                 </div>
+                <div >
+                    <label htmlFor="to" className="form-label ">Coordinater to </label>
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <div className='mb-2 me-2'>
+                                <label htmlFor="year" className="form-label " >Year </label>
+                                <select id="year" className='form-select' {...register('year',{required:true})} defaultValue="">
+                                    <option value="" disabled >Choose Year</option>
+                                    <option value="1">I</option>
+                                    <option value="2">II</option>
+                                    <option value="3">III</option>
+                                    <option value="4">IV</option>
+                                </select>
+                            </div>
+                            <div className='mb-2 me-2'>
+                                <label htmlFor="branch" className="form-label " >Branch </label>
+                                <select id="branch" className='form-select' {...register('branch',{required:true})} defaultValue="">
+                                    <option value="" disabled >Choose branch</option>
+                                    <option value="CSE">CSE</option>
+                                    <option value="IT">IT</option>
+                                    <option value="ECE">ECE</option>
+                                    <option value="EEE">EEE</option>
+                                    <option value="AIML">AIML</option>
+                                </select>
+                            </div>
+
+                            <div className='mb-2 me-2'>
+                                <label htmlFor="section" className="form-label " >Section </label>
+                                <select id="section" className='form-select' {...register('section',{required:true})} defaultValue="">
+                                    <option value="" disabled >Choose Section</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='d-flex justify-content-center pt-4'>
+                        <button className='btn btn-primary button '>Submit</button>
+                    </div>
             </form>
             </div>
             </div>
             </div>
+
+            <Snackbar 
+            anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+            open={regiSnack}
+            autoHideDuration={4000}
+            severity="success"
+            onClose={handleClose}
+            message="Coordinator registered Successfully!"
+            ContentProps={{
+                sx:{
+                  border: "1px solid black",
+                  //borderRadius: "40px",
+                //   color: "black",
+                  //bgcolor: "lightseagreen",
+                  fontWeight: "bold",
+                }
+             }} >
+        </Snackbar>
+
         </div>
         </div>
     );

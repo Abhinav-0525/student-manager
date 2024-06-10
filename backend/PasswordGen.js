@@ -1,5 +1,6 @@
 const length = 10;
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()\/?";
+const numset = "0123456789";
 
 function generatePassword() {
     let password = "";
@@ -9,4 +10,15 @@ function generatePassword() {
     return password;
 }
 
-module.exports = generatePassword;
+function generateOtp() {
+    let otp = "";
+    for (let i = 0; i < 6; i++) {
+        otp += numset.charAt(Math.floor(Math.random() * numset.length));
+    }
+    return otp;
+}
+
+module.exports = {
+    passGen : generatePassword,
+    otpGen : generateOtp
+} 

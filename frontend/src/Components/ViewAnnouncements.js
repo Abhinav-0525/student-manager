@@ -16,23 +16,19 @@ function ViewAnnouncements() {
   useEffect(() => {
     getAnnouncements();
   },[])
-    // let announcements = [
-    //     {title: "Announcement 1", content: "This is announcement 1", date: "2022-01-01", creator:"admin"},
-    //     {title: "Announcement 2", content: "This is announcement 2", date: "2022-01-01", creator:"abhinav"},
-    //     {title: "Announcement 3", content: "This is announcement 3", date: "2022-01-01", creator:"goodboi"}
-    // ]
+    
   return (
     <div>
-        <h3 className='d-flex justify-content-center'>Announcements</h3>
+        <h3 className='d-flex display-6 justify-content-center'>Announcements</h3>
         {announcements.slice().reverse().map((announcement, index) => (
-            <div key={index} className='m-3 p-3 card bg-light'>
+            <div key={index} className='m-3 p-2 card bg-light'>
               
-              <h4 className="card-header head" style={{backgroundColor:'#4682b4',color:'black'}}>{announcement.title}</h4>
-              <div className="card-body">
-                <p className='lead fs-3 card-text'>{announcement.content}</p>
+              <h6 className="card-header p-2 head" style={{backgroundColor:'#4682b4',color:'black'}}>{announcement.title}</h6>
+              <div className="card-body p-1">
+                <p className='lead card-text mb-0'>{announcement.content}</p>
                   <div className='d-flex justify-content-between'>
-                    <p>{announcement.date}</p>
-                    <p className='d-flex '>{announcement.username}</p>
+                    <p className="mb-1">{announcement.date}</p>
+                    <p className='d-flex mb-0'>{announcement.username}</p>
                   </div>
   
               </div>

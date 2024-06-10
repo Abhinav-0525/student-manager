@@ -51,7 +51,7 @@ function TeachersList() {
                             <td>{i++}</td>
                             <td>{teacher.rollno}</td>
                             <td>{teacher.name}</td>
-                            <td>{teacher.course}</td>
+                            <td>{teacher.year}-{teacher.branch}-{teacher.section}</td>
                             <td><button onClick={()=>getTeacherDetails(teacher)} className='btn btn-primary'> view more</button></td>
                         </tr>)
                     }
