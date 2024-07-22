@@ -31,23 +31,24 @@ function DisplayStudents() {
     <>
         <Box height={80}/>
         <h3 className='d-flex mt-4 justify-content-center'>Students List</h3>
-        <div className='row m-3 p-3'>
+        <div className='row row-cols-lg-5 row-cols-md-4 row-cols-sm-3 row-cols-xs-2 justify-content-center m-2 p-2'>
         {students.length===0 ? 
         <h4 className='text-center'>No Students...</h4>
         :
         <>
             {
                 students.map((student, index) => (
-                    <div key={index} className='card cards-1 p-4 mb-3 bg-light'>
-                      <img src={student_img} className='card-img-top d-block mx-auto image-1'  alt=""></img>
+                    <div key={index} className='card shadow border-0 m-3'>
+                        <div className='card-body '>
+                      <img src={student.profilePhoto || student_img} className='card-img-top p-0'  height={'130px'}  alt=""></img>
                       
                       <h5 className="mt-1 text-center" >{student.name}</h5>
                       <div>
-                          <p className='lead fs-5 text-center'>{student.rollno}</p>
+                          <p className='lead mb-0 fs-5 text-center'>{student.rollno}</p>
                       </div>
-          
-                      <div>
-                          <button className='btn btn-primary mt-1 d-block m-auto' onClick={()=>handleViewMore(student)} >View More</button>
+                      </div>
+                      <div className='card-footer bg-white border-0 mb-1 pt-0'>
+                          <button className='btn btn-primary d-block m-auto' onClick={()=>handleViewMore(student)} >View More</button>
                       </div>
                         
                     </div>

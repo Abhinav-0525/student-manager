@@ -5,7 +5,6 @@ import { Box } from '@mui/material'
 function StudentAnnouncements() {
   return (
     <div>
-      <Box height={100}/>
         <div className='mt-4'>
           <ViewAnnouncements/>
         </div>

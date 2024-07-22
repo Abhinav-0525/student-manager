@@ -75,19 +75,27 @@ app.listen(process.env.PORT,()=>{
 
 
 // features to implement:
-// implement change password with otp verification
-// create class with class id, teacher list, subjects and student list
-// make protected routes
+// implement change password with otp verification  -- done
+// create class with class id, teacher list, subjects and student list  -- done
 // connect frontend and backend  -- done
 // implement middleware to prevent refresh -- done
 // change profile pic of students -- done
 //implement todo list for students -- done
 // Add photo to profile -- done
+//Assignments - they should expire after a certain time -- done
+//Holidays - they should expire after a certain time --done -- need to add
 //new students and teachers doesnt have the property of class id
 
-//teacher password - tfrN0VqQ5/
-//student password - /Oh?fWnXII -- 1234567
+//teacher password - tfrN0VqQ5/ -- 12345678
+//student password - /Oh?fWnXII -- 1234567 -- abhinav123
 //admin password - wyvz7#hf!y
 
 //Future improvements:
 // Search bar to search for students and teachers
+// make protected routes
+//add attendence
+//view results
+//admin dashboard
+//user profile has to be placed in navbar and dashboard has to implemented for everyone
+//Announcements - carousel
+//Edit student, teacher data

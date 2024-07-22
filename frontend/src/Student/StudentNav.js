@@ -19,9 +19,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PersonIcon from '@mui/icons-material/Person';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import SpeedIcon from '@mui/icons-material/Speed';
-import SubjectIcon from '@mui/icons-material/Subject';
-import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 import { useSelector } from 'react-redux';
 import ProfilePic from '../Assets/profile_pic.webp'

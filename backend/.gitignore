@@ -1,0 +1,10 @@
+#environment variables
+.env
+
+
+#node modules
+node_modules/
+
+
+#files
+files

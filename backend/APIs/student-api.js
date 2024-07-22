@@ -126,14 +126,6 @@ studentApp.get('/classInfo/:classId', expressAsyncHandler(async (req, res) => {
     res.send({message: "Class details found", payload: dbClassInfo});
 }))
 
-//send otp -- not required for now
-studentApp.get('/otp/:email', expressAsyncHandler(async (req, res) => {
-    let email = req.params.email;
-    let otp = otpGen();
-    changePassword(email, otp);
-    res.send({message: "OTP sent", payload: otp});
-}))
-
 //change password
 studentApp.put('/changePassword', expressAsyncHandler(async (req, res) => {
     let body = req.body;
@@ -153,7 +145,11 @@ studentApp.put('/changePassword', expressAsyncHandler(async (req, res) => {
 //get assignments
 studentApp.get('/assignment/:classId', expressAsyncHandler(async (req, res) => {
     let classId = req.params.classId;
-    let dbAssignments = await assignmentCollection.find({classId: classId}).toArray();
+    let now = new Date();
+    let dbAssignments = await assignmentCollection.find({
+        classId: classId,
+        submissionDate: { $gt: now.toISOString().split('T')[0] }
+    }).toArray();
     res.send({message: "Assignments found", payload: dbAssignments});
 }))
 
@@ -173,6 +169,35 @@ studentApp.put('/assignment/:email',upload.single('file'), expressAsyncHandler(a
     res.send({message: "Assignment uploaded"});
 }))
 
+//forgot password - verify email
+studentApp.get('/forgotPassword/:email', expressAsyncHandler(async (req, res) => {
+    let email = req.params.email;
+    let dbstudent = await studentCollection.findOne({email:email});
+    if(dbstudent===null){
+        res.send({message:"Invalid email id"});
+    }
+    else{
+        res.send({message:"User exists", payload:dbstudent});
+    }
+}))
 
+//send otp 
+studentApp.get('/otp/:email', expressAsyncHandler(async (req, res) => {
+    let email = req.params.email;
+    let otp = otpGen();
+    changePassword(email, otp);
+    res.send({message: "OTP sent", payload: otp});
+}))
+
+//change password and create token
+studentApp.put('/forgotPassword/:email', expressAsyncHandler(async (req, res)=>{
+    let email = req.params.email;
+    let body = req.body;
+    let hashedPwd = await bcryptjs.hash(body.password,8);
+    let result = await studentCollection.updateOne({email:email}, {$set:{password:hashedPwd}})
+    let dbstudent = await studentCollection.findOne({email:email})
+    let signedToken = jwt.sign({email: email}, process.env.SECRET_KEY);
+    res.send({message:"Password reset", token: signedToken, payload: dbstudent, userType: "student"});
+}))
 
 module.exports = studentApp;

@@ -20,13 +20,14 @@ import RegisterStudent from './Admin/RegisterStudent';
 import StudentToDo from './Student/StudentToDo';
 import CreateClass from './Admin/CreateClass';
 import Schedule from './Student/Schedule';
-import GetOtp from './Components/GetOtp';
-import OtpPage from './Components/OtpPage';
 import ChangePassword from './Components/ChangePassword';
 import Assignments from './Coord/Assignments';
 import ViewAssignments from './Student/ViewAssignments';
 import Submissions from './Coord/Submissions';
 import DisplayStudents from './Coord/DisplayStudents';
+import FPEmail from './Components/FPEmail';
+import FPOtp from './Components/FPOtp';
+import ResetPassword from './Components/ResetPassword';
 
 
 function App() {
@@ -35,6 +36,18 @@ function App() {
     {
     path:'',
     element:<Login/>,
+    },
+    {
+      path:'/forgot-password/email',
+      element:<FPEmail/>,
+    },
+    {
+      path:'/forgot-password/otp',
+      element:<FPOtp/>,
+    },
+    {
+      path:'/forgot-password/reset',
+      element:<ResetPassword/>,
     },
     {
       path:'coord',

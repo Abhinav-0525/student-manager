@@ -7,16 +7,18 @@ import student from '../Assets/student.jpg'
 import book from '../Assets/book.jpg'
 import {useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { userLoginThunk } from '../Redux/Slices/userLoginSlice'
+import { userLoginThunk, closeSnackBar } from '../Redux/Slices/userLoginSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
+import { Link} from 'react-router-dom'
+import { Snackbar, SnackbarContent } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 function Login() {
   let navigate = useNavigate();
   let{register,handleSubmit,formState:{errors}} = useForm();
   let dispatch = useDispatch();
-  let {loginStatus,currentUser, userType} = useSelector(state => state.allUserLoginReducer)
+  let {loginStatus,currentUser, userType, snackBar} = useSelector(state => state.allUserLoginReducer)
 
 
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +46,10 @@ function Login() {
       }
   },[loginStatus])
 
- 
+  function handleClose(){
+     dispatch(closeSnackBar());
+  }
+
 
     return (
       <div login-container>
@@ -110,7 +115,30 @@ function Login() {
           </div>
   
         <button className='btn btn-primary mt-2 w-25 d-block m-auto'>Login</button>
+        
+        <p className='text-center mt-3'>Forgot Password? <Link to='/forgot-password/email' className='text-decoration-none'>Click Here!</Link></p>
         </form>
+
+        <Snackbar
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      open={snackBar.open}
+      autoHideDuration={4000}
+      onClose={handleClose}
+    >
+      <SnackbarContent
+        message={
+          <span style={{ display: 'flex', alignItems: 'center' }}>
+            <CancelIcon style={{ marginRight: 8 }} />
+            Invalid username or password!
+          </span>
+        }
+        style={{
+          backgroundColor: 'red',
+          color: 'white',
+          fontWeight: 'bold',
+        }}
+      />
+    </Snackbar>
         
       </div>
     )

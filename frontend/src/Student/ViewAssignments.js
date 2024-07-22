@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
+import { Snackbar, SnackbarContent } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 function ViewAssignments() {
 
     const [assignments, setAssignments] = useState([]);
     let {currentUser} = useSelector(state => state.allUserLoginReducer);
     const [file, setFile] = useState({filePath:"", id:""});
+    const [assignSnack, setAssignSnack] = useState(false);
+
 
     useEffect(() => {
         getAssignments();
@@ -32,6 +36,13 @@ function ViewAssignments() {
             }
         });
         console.log(res)
+        setAssignSnack(true);
+        //change the input field to empty
+
+    }
+
+    function handleClose(event){
+        setAssignSnack(false);
     }
 
 
@@ -40,7 +51,7 @@ function ViewAssignments() {
     <>
     <Box height={100}/>
     <div>
-        <h3 className='d-flex mt-4 justify-content-center'>Assignments</h3>
+        <h3 className='d-flex display-6 justify-content-center'>Assignments</h3>
         <div className='row m-3 p-3'>
         {assignments.length!==0 ? 
         <>
@@ -65,7 +76,7 @@ function ViewAssignments() {
             </div>
             <div>
                 <form className='d-flex justify-content-evenly' onSubmit={handleFileSubmit} encType='multipart/form-data'>
-                    <input type="file" name="file" id="file" onChange={(e) => setFile({filePath:e.target.files[0], id:assignment._id})} accept='application/pdf, application/msword' className='form-control' />
+                    <input type="file" name="file" id="file" onChange={(e) => setFile({filePath:e.target.files[0], id:assignment._id})} accept='application/pdf, application/msword, .ppt, .pptx' className='form-control' />
                     <button className='btn btn-primary ms-5' type='submit'>Submit</button>
                 </form>
             </div>
@@ -79,7 +90,25 @@ function ViewAssignments() {
         </>}
 
         </div>
-      
+        <Snackbar 
+            anchorOrigin={{ vertical:"top", horizontal:"center" }}
+            open={assignSnack}
+            autoHideDuration={4000}
+            severity="success"
+            onClose={handleClose}>
+            <SnackbarContent
+            message={
+            <span style={{ display: 'flex', alignItems: 'center' }}>
+                <CheckCircleIcon style={{ marginRight: 8 }} />
+                Assignment has been submitted!
+            </span>
+            }
+            style={{
+            backgroundColor: 'green',
+            color: 'white',
+            fontWeight: 'bold',
+            }}/> 
+        </Snackbar>
 
     </div>
     </>

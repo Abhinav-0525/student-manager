@@ -20,3 +20,4 @@ export const store = configureStore({
     //providing the store with the root reducers
     reducer: persistedReducer,
 })
+

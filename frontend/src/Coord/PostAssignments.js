@@ -1,12 +1,16 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { Snackbar, SnackbarContent } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 function PostAssignments() {
 
     let{register,handleSubmit}=useForm();
     let {currentUser} = useSelector(state => state.allUserLoginReducer)
+    const [assignSnack, setAssignSnack] = useState(false);
+
 
     async function handleSubmitButton(data){
         const obj = {
@@ -21,8 +25,14 @@ function PostAssignments() {
         let res = await axios.post('http://localhost:4000/coord-api/assignment',obj);
         if(res.data.message === 'Assignment added'){
             console.log("Assignment added");
+            setAssignSnack(true);
         }
     }
+
+    function handleClose(event){
+        setAssignSnack(false);
+    }
+
 
   return (
     <div>
@@ -43,6 +53,26 @@ function PostAssignments() {
             </div>
 
         </form>
+
+        <Snackbar 
+            anchorOrigin={{ vertical:"top", horizontal:"center" }}
+            open={assignSnack}
+            autoHideDuration={4000}
+            severity="success"
+            onClose={handleClose}>
+            <SnackbarContent
+            message={
+            <span style={{ display: 'flex', alignItems: 'center' }}>
+                <CheckCircleIcon style={{ marginRight: 8 }} />
+                Assignment has been posted!
+            </span>
+            }
+            style={{
+            backgroundColor: 'green',
+            color: 'white',
+            fontWeight: 'bold',
+            }}/> 
+        </Snackbar>
     </div>
   )
 }

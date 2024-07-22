@@ -14,9 +14,9 @@ function Schedule() {
         console.log(res)
         if(res.data.message === "Class details found"){
             setClassInfo({...res.data.payload});
-            console.log(res.data.payload)
-            console.log(classInfo)
-            console.log("Class details found")
+            //console.log(res.data.payload)
+            //console.log(classInfo)
+            //console.log("Class details found")
         }
     }
 

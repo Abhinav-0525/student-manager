@@ -363,7 +363,7 @@ function AdminNav() {
         </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, padding: '0 !important',m:0}}>
+      <Box component="main" sx={{ flexGrow: 1, padding: 3,m:0}}>
         <DrawerHeader />
       </Box>
     </Box>

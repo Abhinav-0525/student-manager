@@ -182,9 +182,6 @@ function RegisterStudent() {
             ContentProps={{
                 sx:{
                   border: "1px solid black",
-                  //borderRadius: "40px",
-                //   color: "black",
-                  //bgcolor: "lightseagreen",
                   fontWeight: "bold",
                 }
              }} >
