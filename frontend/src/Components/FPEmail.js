@@ -1,14 +1,23 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Form, Input, Button,  Select} from 'antd'
 import { useNavigate } from 'react-router-dom'
 import Box  from '@mui/material/Box';
+import CustomSnackbar from '../Components/CustomSnackbar';
 import axios from 'axios';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 
 function FPEmail() {
     let navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+  const [currentSnackbar, setCurrentSnackbar] = useState({
+    message: '',
+    icon: null,
+    backgroundColor: '',
+    color: ''
+  });
+
     async function handleSubmit(values){
-        console.log(values)
         let res = await axios.get(`http://localhost:4000/${values.userType}-api/forgotPassword/${values.email}`)
         console.log(res)
         if(res.data.message==="User exists"){
@@ -19,12 +28,21 @@ function FPEmail() {
             }
             else{
                 console.log("Error while sending OTP")
+                setCurrentSnackbar({message: 'Error while sending OTP!', icon: CancelIcon, backgroundColor: 'red', color: 'white'});
+                setOpen(true);
             }
         }
         else{
             console.log("Invalid Email ID");
+            setCurrentSnackbar({message: 'Invalid Email ID!', icon: CancelIcon, backgroundColor: 'red', color: 'white'});
+            setOpen(true);
         }
     }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
   return (
     <div>
         <Box height={100} />
@@ -46,6 +64,14 @@ function FPEmail() {
                 </div>
             </Form>
         </div>
+        <CustomSnackbar
+        open={open}
+        handleClose={handleClose}
+        message= {currentSnackbar.message}
+        icon={currentSnackbar.icon}
+        backgroundColor={currentSnackbar.backgroundColor}
+        color={currentSnackbar.color}
+      />
     </div>
   )
 }

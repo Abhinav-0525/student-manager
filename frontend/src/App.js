@@ -28,6 +28,7 @@ import DisplayStudents from './Coord/DisplayStudents';
 import FPEmail from './Components/FPEmail';
 import FPOtp from './Components/FPOtp';
 import ResetPassword from './Components/ResetPassword';
+import UpdatePhoto from './Components/UpdatePhoto';
 
 
 function App() {
@@ -80,6 +81,10 @@ function App() {
         {
           path:"password",
           element:<ChangePassword/>,
+        },
+        {
+          path:"change-photo",
+          element:<UpdatePhoto />
         }
       ]
     },
@@ -110,6 +115,10 @@ function App() {
         {
           path:'assign',
           element:<ViewAssignments/>
+        },
+        {
+          path:'change-photo',
+          element:<UpdatePhoto/>
         }
       ]
     },

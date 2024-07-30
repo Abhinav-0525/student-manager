@@ -84,18 +84,20 @@ app.listen(process.env.PORT,()=>{
 // Add photo to profile -- done
 //Assignments - they should expire after a certain time -- done
 //Holidays - they should expire after a certain time --done -- need to add
-//new students and teachers doesnt have the property of class id
+//new students and teachers doesnt have the property of class id -- done
 
 //teacher password - tfrN0VqQ5/ -- 12345678
-//student password - /Oh?fWnXII -- 1234567 -- abhinav123
+//student password - /Oh?fWnXII -- 1234567 -- abhinav
 //admin password - wyvz7#hf!y
 
 //Future improvements:
-// Search bar to search for students and teachers
+// Search bar to search for students and teachers -- cancel
 // make protected routes
-//add attendence
-//view results
+//add attendence -- cancel
+//view results -- cancel
 //admin dashboard
-//user profile has to be placed in navbar and dashboard has to implemented for everyone
+//user profile, logout has to be placed in navbar and dashboard has to implemented for everyone -- done
 //Announcements - carousel
-//Edit student, teacher data
+//Edit student, teacher data -- cancel
+//decrease size of teacher assignments and use antd form for submitting assignments
+//student regi form -> antd

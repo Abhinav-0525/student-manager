@@ -1,52 +1,65 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Box from '@mui/material/Box'
 import './ChangePassword.css'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import CustomSnackbar from '../Components/CustomSnackbar';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 
 function ChangePassword() {
 
     let {register, handleSubmit} = useForm()
     let {currentUser, userType} = useSelector(state => state.allUserLoginReducer)
     let navigate = useNavigate()
+    const [open, setOpen] = useState(false);
+  const [currentSnackbar, setCurrentSnackbar] = useState({
+    message: '',
+    icon: null,
+    backgroundColor: '',
+    color: ''
+  });
 
     async function handlePasswordSubmit(data){
-        console.log(data)
         if(data.newPassword1 !== data.newPassword2){
-            alert('Password does not match')
+            //alert('Password does not match')
+            setCurrentSnackbar({message: 'Passwords donot match!', icon: CancelIcon, backgroundColor: 'red', color: 'white'});
+            setOpen(true);
             return
         }
         else{
             data.email = currentUser.email;
             if(userType === "student"){
                 let res = await axios.put('http://localhost:4000/student-api/changePassword', data)
-                console.log(res)
                 if(res.data.message === "Wrong old password"){
                     console.log('Wrong old password')
+                    setCurrentSnackbar({message: 'Incorrect existing password!', icon: CancelIcon, backgroundColor: 'red', color: 'white'});
+                    setOpen(true);
                 }
                 if(res.data.message === "Password changed"){
-                    console.log("Password changed")
                     navigate('/student')
                 }
             }
             else{
                 let res = await axios.put('http://localhost:4000/coord-api/changePassword', data)
-                console.log(res)
                 if(res.data.message === "Wrong old password"){
                     console.log('Wrong old password')
+                    setCurrentSnackbar({message: 'Incorrect existing password!', icon: CancelIcon, backgroundColor: 'red', color: 'white'});
+                    setOpen(true);
                 }
                 if(res.data.message === "Password changed"){
-                    console.log("Password changed")
+                    //console.log("Password changed")
                     navigate('/coord')
                 }
             }
-            
-            
-        }
-        
+        }   
     }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
   return (
     <>
@@ -70,6 +83,16 @@ function ChangePassword() {
            </div>
         </form>
       </div>
+
+      <CustomSnackbar
+        open={open}
+        handleClose={handleClose}
+        message= {currentSnackbar.message}
+        icon={currentSnackbar.icon}
+        backgroundColor={currentSnackbar.backgroundColor}
+        color={currentSnackbar.color}
+      />
+
     </>
 
   )

@@ -143,8 +143,14 @@ function StudentNav() {
 
   const handleLogoutClick = () =>{
     //navigate('/student/logout');
+    localStorage.removeItem('token');
+    localStorage.removeItem('persist:root');
+    dispatch(resetState())
+    navigate('/');
     handleMenuClose();
   }
+
+  
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -189,6 +195,7 @@ function StudentNav() {
               horizontal: 'right',
             }}
           >
+            <MenuItem onClick={()=>navigate('/student/change-photo')}>Change Photo</MenuItem>
             <MenuItem onClick={handleProfileClick}>Change Password</MenuItem>
             <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
           </Menu>
@@ -390,7 +397,7 @@ function StudentNav() {
           </ListItem>
 
 
-          <ListItem disablePadding sx={{ display: 'block' }}>
+          {/* <ListItem disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               component={Link}
               to="/"
@@ -416,7 +423,7 @@ function StudentNav() {
               </ListItemIcon>
               <ListItemText primary="Log Out" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
 
 
         </List>

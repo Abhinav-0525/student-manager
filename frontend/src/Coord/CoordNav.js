@@ -148,6 +148,10 @@ function CoordNav() {
 
   const handleLogoutClick = () =>{
     //navigate('/student/logout');
+    localStorage.removeItem('token');
+    localStorage.removeItem('persist:root');
+    dispatch(resetState())
+    navigate('/');
     handleMenuClose();
   }
 
@@ -194,6 +198,7 @@ function CoordNav() {
               horizontal: 'right',
             }}
           >
+            <MenuItem onClick={()=>navigate('/student/change-photo')}>Change Photo</MenuItem>
             <MenuItem onClick={handleProfileClick}>Change Password</MenuItem>
             <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
           </Menu>
@@ -304,7 +309,7 @@ function CoordNav() {
             </ListItemButton>
           </ListItem>
 
-          <ListItem disablePadding sx={{ display: 'block' }}>
+          {/* <ListItem disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               component={Link}
               to="/"
@@ -330,7 +335,7 @@ function CoordNav() {
               </ListItemIcon>
               <ListItemText primary="Log Out" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           
         </List>
         <Divider />

@@ -66,6 +66,17 @@ export const userPasswordResetThunk = createAsyncThunk('user-password-reset-thun
             }
             return res.data
         }
+
+        if(userObj.userType === "admin"){
+            let res = await axios.put(`http://localhost:4000/admin-api/forgotPassword/${userObj.email}`, {password:userObj.password});
+            if(res.data.message === "Password reset"){
+                localStorage.setItem("token", res.data.token)
+            }
+            else{
+                return thunkApi.rejectWithValue(res.data.message)
+            }
+            return res.data
+        }
     }
     catch(err){
         return thunkApi.rejectWithValue(err)

@@ -1,21 +1,37 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Form, Input, Button, DatePicker, Select,Row, Col, Checkbox, Flex} from 'antd'
 import { useNavigate, useLocation } from 'react-router-dom';
 import Box  from '@mui/material/Box';
-
-
+import CustomSnackbar from '../Components/CustomSnackbar';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 function FPOtp() {
 
     let navigate = useNavigate();
     let {state} = useLocation();
+    const [open, setOpen] = useState(false);
+  const [currentSnackbar, setCurrentSnackbar] = useState({
+    message: '',
+    icon: null,
+    backgroundColor: '',
+    color: ''
+  });
 
     function handleSubmit(values) {
         console.log(values);
         if(values.otp === state.otp){
             navigate('/forgot-password/reset', {state: {...state}})
         }
+        else{
+            console.log("Incorrect OTP")
+            setCurrentSnackbar({message: 'Incorrect OTP!', icon: CancelIcon, backgroundColor: 'red', color: 'white'});
+            setOpen(true);
+        }
     }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
   return (
     <div>
@@ -29,6 +45,16 @@ function FPOtp() {
                 <Button type="primary" className='d-block mx-auto' htmlType="submit">Submit</Button>
             </Form>  
         </div>
+
+        <CustomSnackbar
+        open={open}
+        handleClose={handleClose}
+        message= {currentSnackbar.message}
+        icon={currentSnackbar.icon}
+        backgroundColor={currentSnackbar.backgroundColor}
+        color={currentSnackbar.color}
+      />
+
     </div>
   )
 }

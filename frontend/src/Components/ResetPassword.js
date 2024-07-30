@@ -30,11 +30,11 @@ function ResetPassword() {
 
     useEffect(()=>{
         if(loginStatus===true){
-          if(userType==='/coord'){
-            navigate('coord')
+          if(userType==='coord'){
+            navigate('/coord')
           }
-          else if(userType==='/admin'){
-            navigate('admin')
+          else if(userType==='admin'){
+            navigate('/admin')
           }
           else if(userType==='student'){
               navigate('/student')

@@ -3,9 +3,11 @@ const adminApp = exp.Router();
 const expressAsyncHandler = require('express-async-handler');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {passGen} = require('../PasswordGen'); // password generator function
-const {mailer} = require('../EmailSender'); // mailer function - this accepts the email and password of the student and sends the mail
+const {passGen, otpGen} = require('../PasswordGen'); // password generator function
+const {mailer, changePassword} = require('../EmailSender'); // mailer function - this accepts the email and password of the student and sends the mail
 require('dotenv').config();
+const {ObjectId} = require('mongodb');
+
 
 let studentCollection, coordCollection, adminCollection;
 adminApp.use((req,res,next)=>{
@@ -123,8 +125,18 @@ adminApp.post('/announce',expressAsyncHandler(async(req,res)=>{
 
 //view announcements
 adminApp.get('/announce',expressAsyncHandler(async(req,res)=>{
-    let dbAnnouncements = await announcementCollection.find({}).toArray();
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    let dbAnnouncements = await announcementCollection.find().toArray();
     res.send({message:'Announcements found',payload:dbAnnouncements})
+}))
+
+//delete announcement
+adminApp.delete('/announce/:id',expressAsyncHandler(async(req,res)=>{
+    let id = req.params.id;
+    let resp = await announcementCollection.deleteOne({_id:new ObjectId(id)});
+    console.log(resp)
+    res.send({message:'Announcement deleted'})
 }))
 
 //get all students
@@ -152,6 +164,36 @@ adminApp.post('/class',expressAsyncHandler(async(req,res)=>{
         res.send({message:'Class already exists'})
     }
     
+}))
+
+//forgot password - verify email
+adminApp.get('/forgotPassword/:email',expressAsyncHandler(async(req,res)=>{
+    let email = req.params.email;
+    let dbAdmin = await adminCollection.findOne({email:email});
+    if(dbAdmin){
+        res.send({message:"User exists", payload:dbAdmin});
+    }
+    else{
+        res.send({message:'Invalid email id'});
+    }
+}))
+
+//send otp
+adminApp.get('/otp/:email',expressAsyncHandler(async(req,res)=>{
+    let email = req.params.email;
+    let otp = otpGen();
+    changePassword(email,otp);
+    res.send({message:'OTP sent', payload:otp});
+}))
+
+adminApp.put('/forgotPassword/:email',expressAsyncHandler(async(req,res)=>{
+    let email = req.params.email;
+    let body = req.body;
+    let hashedPwd = await bcryptjs.hash(body.password,8);
+    let result = await adminCollection.updateOne({email:email},{$set:{password:hashedPwd}});
+    let dbAdmin = await adminCollection.findOne({email:email});
+    let signedToken = jwt.sign({email: email},process.env.SECRET_KEY);
+    res.send({message:"Password reset", token: signedToken, payload: dbAdmin, userType: "admin"});
 }))
 
 module.exports = adminApp;

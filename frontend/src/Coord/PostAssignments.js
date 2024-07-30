@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Snackbar, SnackbarContent } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-function PostAssignments() {
+function PostAssignments({ onPostAssignment }) {
 
     let{register,handleSubmit}=useForm();
     let {currentUser} = useSelector(state => state.allUserLoginReducer)
@@ -25,6 +25,7 @@ function PostAssignments() {
         let res = await axios.post('http://localhost:4000/coord-api/assignment',obj);
         if(res.data.message === 'Assignment added'){
             console.log("Assignment added");
+            onPostAssignment();
             setAssignSnack(true);
         }
     }

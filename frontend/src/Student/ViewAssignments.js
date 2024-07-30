@@ -8,6 +8,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 function ViewAssignments() {
 
     const [assignments, setAssignments] = useState([]);
+    const [refresh, setRefresh] = useState(false)
     let {currentUser} = useSelector(state => state.allUserLoginReducer);
     const [file, setFile] = useState({filePath:"", id:""});
     const [assignSnack, setAssignSnack] = useState(false);
@@ -15,7 +16,7 @@ function ViewAssignments() {
 
     useEffect(() => {
         getAssignments();
-    },[])
+    },[refresh])
 
     async function getAssignments() {
         let res = await axios.get(`http://localhost:4000/student-api/assignment/${currentUser.classId}`);
@@ -35,16 +36,21 @@ function ViewAssignments() {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        console.log(res)
+        //formData.reset();
+        //console.log(res)
         setAssignSnack(true);
-        //change the input field to empty
-
+        setRefresh(prev => !prev);
     }
 
     function handleClose(event){
         setAssignSnack(false);
     }
-
+    
+    function isSubmitted(submissions, rollno){
+        let status = submissions.find((submission)=>{
+            return submission.rollno === rollno;})
+        return status ? true : false;
+    }
 
 
   return (
@@ -75,10 +81,14 @@ function ViewAssignments() {
 
             </div>
             <div>
-                <form className='d-flex justify-content-evenly' onSubmit={handleFileSubmit} encType='multipart/form-data'>
+                {/* Display this form only if the student didnt submit the assignment */}
+                {isSubmitted(assignment.submissions, currentUser.rollno) ? <p className='lead d-flex mt-2 justify-content-center'>Assignment Submitted</p>:
+                    <form className='d-flex justify-content-evenly' onSubmit={handleFileSubmit} encType='multipart/form-data'>
                     <input type="file" name="file" id="file" onChange={(e) => setFile({filePath:e.target.files[0], id:assignment._id})} accept='application/pdf, application/msword, .ppt, .pptx' className='form-control' />
                     <button className='btn btn-primary ms-5' type='submit'>Submit</button>
-                </form>
+                    </form>
+                }
+                
             </div>
               
           </div>

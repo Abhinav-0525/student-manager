@@ -4,6 +4,8 @@ const expressAsyncHandler = require('express-async-handler');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {ObjectId} = require('mongodb');
+const { otpGen } = require('../PasswordGen');
+const { changePassword } = require('../EmailSender');
 require('dotenv').config();
 
 //Get coordinator details
@@ -80,6 +82,13 @@ coordApp.get('/assignment/submissions/:id', expressAsyncHandler(async(req,res)=>
     res.send({message:'Submissions found',payload:dbAssignment.submissions});
 }))
 
+//delete assignment
+coordApp.delete('/assignment/:id',expressAsyncHandler(async(req,res)=>{
+    let id = req.params.id;
+    await assignmentCollection.deleteOne({_id:new ObjectId(id)});
+    res.send({message:'Assignment deleted'})
+}))
+
 //get students list
 coordApp.get('/students/:classId',expressAsyncHandler(async(req,res)=>{
     let id = req.params.classId;
@@ -107,6 +116,37 @@ coordApp.put('/profile-photo',expressAsyncHandler(async(req,res)=>{
     let newCoord = req.body;
     let result = await coordCollection.updateOne({email:newCoord.email},{$set:{profilePhoto:newCoord.profilePhoto, hasPhoto:true}});
     res.send({message:'Profile photo updated'});
+}))
+
+//forgot password - verify email
+coordApp.get('/forgotPassword/:email',expressAsyncHandler(async(req,res)=>{
+    let email = req.params.email;
+    let dbCoord = await coordCollection.findOne({email:email});
+    if(dbCoord){
+        res.send({message:"User exists", payload:dbCoord});
+    }
+    else{
+        res.send({message:'Invalid email id'});
+    }
+}))
+
+//send otp
+coordApp.get('/otp/:email',expressAsyncHandler(async(req,res)=>{
+    let email = req.params.email;
+    let otp = otpGen();
+    changePassword(email,otp);
+    res.send({message:'OTP sent', payload:otp});
+}))
+
+//change password and create token
+coordApp.put('/forgotPassword/:email',expressAsyncHandler(async(req,res)=>{
+    let email = req.params.email;
+    let body = req.body;
+    let hashedPwd = await bcryptjs.hash(body.password,8);
+    let result = await coordCollection.updateOne({email:email},{$set:{password:hashedPwd}});
+    let dbCoord = await coordCollection.findOne({email:email});
+    let signedToken = jwt.sign({email: email},process.env.SECRET_KEY);
+    res.send({message:"Password reset", token: signedToken, payload: dbCoord, userType: "coord"});
 }))
 
 

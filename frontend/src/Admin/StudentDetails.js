@@ -55,9 +55,9 @@ function StudentDetails() {
     <>
     <Box height={100}></Box>
     <div className='bg-secondary p-3 mt-3'>
-        <div className=' parent row-cols-sm-1'>
+        <div className='parent row-cols-sm-1'>
             <div className='me-3  bg-white'>
-                {userType === "admin" || userType === "coord" || hasPic=== true?
+                {/* {userType === "admin" || userType === "coord" || hasPic=== true?
                 <>
                     <div className='justify-content-center text-center d-flex '>
                         <img className='img mx-auto mt-3' src={user.profilePhoto || ProfilePic } alt="" />
@@ -83,7 +83,10 @@ function StudentDetails() {
                             <button className='btn btn-primary mt-3 mx-auto' type='submit'>Upload image</button>
                         </form>
                     </div>
-                </>}
+                </>} */}
+                <div className='justify-content-center text-center d-flex '>
+                    <img className='img mx-auto mt-3' src={user.profilePhoto || ProfilePic } alt="" />
+                </div>
                 
                 <div className='mt-3'>
                     <h4 className='text-center'>{user.name.toUpperCase()}</h4>

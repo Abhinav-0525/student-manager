@@ -6,18 +6,19 @@ import { Snackbar, SnackbarContent } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
-function AddAnnouncements() {
+function AddAnnouncements({handleRefresh}) {
   let {currentUser} = useSelector(state => state.allUserLoginReducer);
   const [announceSnack, setAnnounceSnack] = useState(false);
   let [form] = Form.useForm();
 
   async function handleFormSubmit(data) {    
-    data.date = new Date().toLocaleString('en-GB',{timeZone:'Asia/Kolkata', hour12:false});
+    data.date = new Date();
     data.username = currentUser.name;
     let res = await axios.post('http://localhost:4000/admin-api/announce', data)
     if(res.data.message === "Announcement added"){
       console.log("Announcement added");
       setAnnounceSnack(true);
+      handleRefresh();
       form.resetFields();
     }
     console.log(data);
