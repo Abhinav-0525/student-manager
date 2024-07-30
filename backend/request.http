@@ -31,7 +31,8 @@ Content-Type: application/json
 
 {
     "name": "abhinav",
-    "email": "abhinavsai.janipireddy@gmail.com"
+    "email": "abhinavsai.janipireddy@gmail.com",
+    "profilePhoto": ""
 }
 
 ### student registration through admin api

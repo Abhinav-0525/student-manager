@@ -26,8 +26,8 @@ adminApp.post('/admin',expressAsyncHandler(async(req,res)=>{
     if(dbAdmin===null){
         let password = passGen();
         mailer(admin.email,password); //sends the mail with new password to the student
-        //let hashedPwd = await bcryptjs.hash(password,8);
-        admin.password = password;
+        let hashedPwd = await bcryptjs.hash(password,8);
+        admin.password = hashedPwd;
         await adminCollection.insertOne(admin);
         res.send({message:'Admin registered and mail sent'})
     }
@@ -45,7 +45,8 @@ adminApp.post('/login',expressAsyncHandler(async(req,res)=>{
         res.send({message:'Invalid email'})
     }
     else{
-        if(admin.password===dbAdmin.password){
+        let status = await bcryptjs.compare(admin.password, dbAdmin.password);
+        if(status===true){
             let signedToken = jwt.sign({email:admin.email},process.env.SECRET_KEY);
             res.send({message:'Login success',token:signedToken,payload:dbAdmin})
         }

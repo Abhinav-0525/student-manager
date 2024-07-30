@@ -26,7 +26,7 @@ const adminApp = require('./APIs/admin-api')
 const mongoClint = require('mongodb').MongoClient;
 
 //Connecting to mongodb
-mongoClint.connect(process.env.URL)
+mongoClint.connect(process.env.MONGO_URI)
 .then(client=>{
     //Getting db object
     const db = client.db('studentManager');
