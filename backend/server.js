@@ -29,8 +29,6 @@ const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     ssl: true,
-    tlsAllowInvalidCertificates: false,
-    tlsInsecure: false
   };
 
 //Connecting to mongodb
