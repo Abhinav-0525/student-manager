@@ -29,7 +29,7 @@ function CreateClass() {
             timeTable:tableContent
         }
         console.log(newClass)
-        let res = await axios.post("http://localhost:4000/admin-api/class", newClass)
+        let res = await axios.post(`${process.env.REACT_APP_API_URL}/admin-api/class`, newClass)
         console.log(res)
         if(res.data.message === 'Class created'){
             console.log('Class created')

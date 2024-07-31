@@ -31,7 +31,7 @@ function ViewAnnouncements({refresh}) {
 
   let res;
   async function getAnnouncements() {
-    res = await axios.get('http://localhost:4000/admin-api/announce');
+    res = await axios.get(`${process.env.REACT_APP_API_URL}/admin-api/announce`);
     if(Array.isArray(res.data.payload)){
       setAnnouncements(res.data.payload);
     }
@@ -43,7 +43,7 @@ function ViewAnnouncements({refresh}) {
   },[refresh])
 
   async function handleDelete(id) {
-    let resp = await axios.delete(`http://localhost:4000/admin-api/announce/${id}`);
+    let resp = await axios.delete(`${process.env.REACT_APP_API_URL}/admin-api/announce/${id}`);
     if(resp.data.message === "Announcement deleted"){
       getAnnouncements();
       setCurrentSnackbar({message: 'Announcement has been deleted!', icon: DeleteIcon, backgroundColor: 'red', color: 'white'});

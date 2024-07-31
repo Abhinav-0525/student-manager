@@ -8,7 +8,7 @@ function Submissions() {
     let {state} = useLocation();
 
     function handleFileOpen(file) {
-        window.open(`http://localhost:4000/files/${file}`, '_blank', 'noreferror');
+        window.open(`${process.env.REACT_APP_API_URL}/files/${file}`, '_blank', 'noreferror');
     }
 
 

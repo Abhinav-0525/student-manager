@@ -15,7 +15,7 @@ function RegisterStudent() {
         obj.profilePhoto = "";
         obj.todos = [];
         obj.classId = obj.course+obj.section+obj.year;
-        let res = await axios.post("http://localhost:4000/admin-api/student",obj)
+        let res = await axios.post(`${process.env.REACT_APP_API_URL}/admin-api/student`,obj)
         if(res.data.message === 'Student already exists'){
             console.log(res.data.message);
         }

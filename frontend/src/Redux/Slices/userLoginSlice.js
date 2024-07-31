@@ -5,7 +5,7 @@ import axios from "axios";
 export const userLoginThunk = createAsyncThunk('user-login-thunk', async (userObj, thunkApi) => {
     try{
         if(userObj.userType === "student"){
-            let res = await axios.post("http://localhost:4000/student-api/login", userObj)
+            let res = await axios.post(`${process.env.REACT_APP_API_URL}/student-api/login`, userObj)
             if(res.data.message === "Login success"){
                 localStorage.setItem("token", res.data.token)
             }
@@ -16,7 +16,7 @@ export const userLoginThunk = createAsyncThunk('user-login-thunk', async (userOb
         }
     
         if(userObj.userType === "coord"){
-            let res = await axios.post("http://localhost:4000/coord-api/login", userObj)
+            let res = await axios.post(`${process.env.REACT_APP_API_URL}/coord-api/login`, userObj)
             if(res.data.message === "Login success"){
                 localStorage.setItem("token", res.data.token)
             }
@@ -27,7 +27,7 @@ export const userLoginThunk = createAsyncThunk('user-login-thunk', async (userOb
         }
     
         if(userObj.userType === "admin"){
-            let res = await axios.post("http://localhost:4000/admin-api/login", userObj)
+            let res = await axios.post(`${process.env.REACT_APP_API_URL}/admin-api/login`, userObj)
             if(res.data.message === "Login success"){
                 localStorage.setItem("token", res.data.token)
             }
@@ -45,7 +45,7 @@ export const userLoginThunk = createAsyncThunk('user-login-thunk', async (userOb
 export const userPasswordResetThunk = createAsyncThunk('user-password-reset-thunk', async (userObj, thunkApi) => {
     try{
         if(userObj.userType === "student"){
-            let res = await axios.put(`http://localhost:4000/student-api/forgotPassword/${userObj.email}`, {password:userObj.password});
+            let res = await axios.put(`${process.env.REACT_APP_API_URL}/student-api/forgotPassword/${userObj.email}`, {password:userObj.password});
             if(res.data.message === "Password reset"){
                 localStorage.setItem("token", res.data.token)
                 console.log(res)
@@ -57,7 +57,7 @@ export const userPasswordResetThunk = createAsyncThunk('user-password-reset-thun
         }
         
         if(userObj.userType === "coord"){
-            let res = await axios.put(`http://localhost:4000/coord-api/forgotPassword/${userObj.email}`, {password:userObj.password});
+            let res = await axios.put(`${process.env.REACT_APP_API_URL}/coord-api/forgotPassword/${userObj.email}`, {password:userObj.password});
             if(res.data.message === "Password reset"){
                 localStorage.setItem("token", res.data.token)
             }
@@ -68,7 +68,7 @@ export const userPasswordResetThunk = createAsyncThunk('user-password-reset-thun
         }
 
         if(userObj.userType === "admin"){
-            let res = await axios.put(`http://localhost:4000/admin-api/forgotPassword/${userObj.email}`, {password:userObj.password});
+            let res = await axios.put(`${process.env.REACT_APP_API_URL}/admin-api/forgotPassword/${userObj.email}`, {password:userObj.password});
             if(res.data.message === "Password reset"){
                 localStorage.setItem("token", res.data.token)
             }

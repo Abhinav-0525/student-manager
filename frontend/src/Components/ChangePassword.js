@@ -32,7 +32,7 @@ function ChangePassword() {
         else{
             data.email = currentUser.email;
             if(userType === "student"){
-                let res = await axios.put('http://localhost:4000/student-api/changePassword', data)
+                let res = await axios.put(`${process.env.REACT_APP_API_URL}/student-api/changePassword`, data)
                 if(res.data.message === "Wrong old password"){
                     console.log('Wrong old password')
                     setCurrentSnackbar({message: 'Incorrect existing password!', icon: CancelIcon, backgroundColor: 'red', color: 'white'});
@@ -43,7 +43,7 @@ function ChangePassword() {
                 }
             }
             else{
-                let res = await axios.put('http://localhost:4000/coord-api/changePassword', data)
+                let res = await axios.put(`${process.env.REACT_APP_API_URL}/coord-api/changePassword`, data)
                 if(res.data.message === "Wrong old password"){
                     console.log('Wrong old password')
                     setCurrentSnackbar({message: 'Incorrect existing password!', icon: CancelIcon, backgroundColor: 'red', color: 'white'});

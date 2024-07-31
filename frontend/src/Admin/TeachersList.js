@@ -12,7 +12,7 @@ function TeachersList() {
     let i = 1;
     let res;
     async function getTeachers() {
-        res = await axios.get("http://localhost:4000/admin-api/coords")
+        res = await axios.get(`${process.env.REACT_APP_API_URL}/admin-api/coords`)
         console.log(res)
         if(Array.isArray(res.data.payload)) {
             setTeachers(res.data.payload)

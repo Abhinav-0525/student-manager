@@ -17,7 +17,7 @@ function DisplayStudents() {
     let navigate = useNavigate();
 
     async function getStudents(){
-        let res = await axios.get(`http://localhost:4000/coord-api/students/${currentUser.classId}`)
+        let res = await axios.get(`${process.env.REACT_APP_API_URL}/coord-api/students/${currentUser.classId}`)
         if(res.data.message==='Students found'){
             setStudents(res.data.payload)
         }

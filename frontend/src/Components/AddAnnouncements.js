@@ -14,7 +14,7 @@ function AddAnnouncements({handleRefresh}) {
   async function handleFormSubmit(data) {    
     data.date = new Date();
     data.username = currentUser.name;
-    let res = await axios.post('http://localhost:4000/admin-api/announce', data)
+    let res = await axios.post(`${process.env.REACT_APP_API_URL}/admin-api/announce`, data)
     if(res.data.message === "Announcement added"){
       console.log("Announcement added");
       setAnnounceSnack(true);

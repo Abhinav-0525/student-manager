@@ -17,7 +17,7 @@ function StudentToDo() {
     },[])
 
     async function getTodos() {
-        let res = await axios.get(`http://localhost:4000/student-api/todo/${currentUser.email}`)
+        let res = await axios.get(`${process.env.REACT_APP_API_URL}/student-api/todo/${currentUser.email}`)
         if(Array.isArray(res.data.payload)){
             setTodos(res.data.payload)
         }
@@ -29,7 +29,7 @@ function StudentToDo() {
     async function handleSubmit(e) {
         e.preventDefault();
         let newTodo = {task: task, todoId : nanoid(), isCompleted:false};
-        let res =  await axios.put(`http://localhost:4000/student-api/todo/${currentUser.email}`, newTodo)
+        let res =  await axios.put(`${process.env.REACT_APP_API_URL}/student-api/todo/${currentUser.email}`, newTodo)
         if(res.data.message === "Todo added"){
             console.log("Todo added");
             window.location.reload();
@@ -37,7 +37,7 @@ function StudentToDo() {
     }
 
     async function handleDelete(todoId) {
-        let res = await axios.put(`http://localhost:4000/student-api/todo/delete/${currentUser.email}`, {todoId:todoId})
+        let res = await axios.put(`${process.env.REACT_APP_API_URL}/student-api/todo/delete/${currentUser.email}`, {todoId:todoId})
         if(res.data.message === "Todo deleted"){
             setTodos(res.data.payload)
             console.log("Todo deleted");
@@ -47,10 +47,10 @@ function StudentToDo() {
     async function handleEdit(todoId, status) {
       let res;
       if(status === false){
-        res = await axios.put(`http://localhost:4000/student-api/todo/edit/${currentUser.email}`, {todoId:todoId, isCompleted:true})
+        res = await axios.put(`${process.env.REACT_APP_API_URL}/student-api/todo/edit/${currentUser.email}`, {todoId:todoId, isCompleted:true})
       }
       else{
-        res = await axios.put(`http://localhost:4000/student-api/todo/edit/${currentUser.email}`, {todoId:todoId, isCompleted:false})
+        res = await axios.put(`${process.env.REACT_APP_API_URL}/student-api/todo/edit/${currentUser.email}`, {todoId:todoId, isCompleted:false})
       }
       if(res.data.message === "Todo updated"){
         setTodos(res.data.payload)

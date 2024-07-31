@@ -24,7 +24,7 @@ function TeacherDetails() {
     async function handleSubmit(e){
         e.preventDefault();
         let tempCoord = {...user, hasPhoto: true, profilePhoto: photo};
-        let res = await axios.put('http://localhost:4000/coord-api/profile-photo', tempCoord);
+        let res = await axios.put(`${process.env.REACT_APP_API_URL}/coord-api/profile-photo`, tempCoord);
         console.log(res);
         if(res.data.message === "Profile photo updated"){
             setHasPic(true);
@@ -55,11 +55,11 @@ function TeacherDetails() {
     <div className='bg-secondary p-3 mt-4'>
         <div className=' parent row-cols-sm-1'>
             <div className='me-3 p-2 bg-white'>
-                {/* <div className='justify-content-center text-center d-flex '>
-                    <img className='img mx-auto' src={teacher} alt="" />
-                </div> */}
+                <div className='justify-content-center text-center d-flex '>
+                    <img className='img mx-auto' src={user.profilePhoto || ProfilePic} alt="" />
+                </div>
 
-                {userType==='admin' || hasPic===true  ?
+                {/* {userType==='admin' || hasPic===true  ?
                 <>
                     <div className='justify-content-center text-center d-flex '>
                         <img className='img mx-auto mt-3' src={user.profilePhoto || ProfilePic} alt="" />
@@ -85,7 +85,7 @@ function TeacherDetails() {
                             <button className='btn btn-primary mt-3 mx-auto' type='submit'>Upload image</button>
                         </form>
                     </div>
-                </>}
+                </>} */}
 
 
                 <div className='mt-3'>

@@ -19,7 +19,7 @@ function ViewAssignments() {
     },[refresh])
 
     async function getAssignments() {
-        let res = await axios.get(`http://localhost:4000/student-api/assignment/${currentUser.classId}`);
+        let res = await axios.get(`${process.env.REACT_APP_API_URL}/student-api/assignment/${currentUser.classId}`);
         if(res.data.message === 'Assignments found'){
             setAssignments(res.data.payload);
         }
@@ -31,7 +31,7 @@ function ViewAssignments() {
         let formData = new FormData();
         formData.append('file', file.filePath);
         formData.append('id', file.id);
-        let res = await axios.put(`http://localhost:4000/student-api/assignment/${currentUser.email}`, formData, {
+        let res = await axios.put(`${process.env.REACT_APP_API_URL}/student-api/assignment/${currentUser.email}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

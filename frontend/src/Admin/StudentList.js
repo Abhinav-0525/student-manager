@@ -9,7 +9,7 @@ function StudentList() {
     let i=1;
     let res;
     async function getStudents(){
-        res = await axios.get("http://localhost:4000/admin-api/students");
+        res = await axios.get(`${process.env.REACT_APP_API_URL}/admin-api/students`);
         if(Array.isArray(res.data.payload)){
             setStudents(res.data.payload);
         }

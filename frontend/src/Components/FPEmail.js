@@ -18,10 +18,10 @@ function FPEmail() {
   });
 
     async function handleSubmit(values){
-        let res = await axios.get(`http://localhost:4000/${values.userType}-api/forgotPassword/${values.email}`)
+        let res = await axios.get(`${process.env.REACT_APP_API_URL}/${values.userType}-api/forgotPassword/${values.email}`)
         console.log(res)
         if(res.data.message==="User exists"){
-            let result = await axios.get(`http://localhost:4000/${values.userType}-api/otp/${values.email}`)
+            let result = await axios.get(`${process.env.REACT_APP_API_URL}/${values.userType}-api/otp/${values.email}`)
             console.log(result)
             if(result.data.message==="OTP sent"){
                 navigate('/forgot-password/otp', {state:{user:res.data.payload, userType:values.userType, otp:result.data.payload}})

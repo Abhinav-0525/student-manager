@@ -22,7 +22,7 @@ function PostAssignments({ onPostAssignment }) {
             submissions:[]
         };  
         console.log(obj);
-        let res = await axios.post('http://localhost:4000/coord-api/assignment',obj);
+        let res = await axios.post(`${process.env.REACT_APP_API_URL}/coord-api/assignment`,obj);
         if(res.data.message === 'Assignment added'){
             console.log("Assignment added");
             onPostAssignment();

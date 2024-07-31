@@ -20,7 +20,7 @@ function RegisterCoord() {
         obj.profilePhoto = ""
         obj.hasPhoto = false;
         obj.dob = obj.dob.format('DD-MM-YYYY');
-        let res = await axios.post("http://localhost:4000/admin-api/coord",obj)
+        let res = await axios.post(`${process.env.REACT_APP_API_URL}/admin-api/coord`,obj)
         if(res.data.message === 'Coordinator already exists'){
             console.log(res.data.message);
         }

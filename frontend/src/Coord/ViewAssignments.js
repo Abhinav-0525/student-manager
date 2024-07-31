@@ -23,14 +23,14 @@ function ViewAssignments({refresh}) {
     },[refresh])
 
     async function getAssignments() {
-        let res = await axios.get(`http://localhost:4000/coord-api/assignment/${currentUser.classId}`);
+        let res = await axios.get(`${process.env.REACT_APP_API_URL}/coord-api/assignment/${currentUser.classId}`);
         if(res.data.message === 'Assignments found'){
             setAssignments(res.data.payload);
         }
     }
 
     async function handleSubmissions(Id) {
-      let res = await axios.get(`http://localhost:4000/coord-api/assignment/submissions/${Id}`);
+      let res = await axios.get(`${process.env.REACT_APP_API_URL}/coord-api/assignment/submissions/${Id}`);
       //console.log(res)
       if(res.data.message === 'Submissions found'){
           navigate(`/coord/view-submissions/${Id}`, {state:res.data.payload});
@@ -38,7 +38,7 @@ function ViewAssignments({refresh}) {
     }
 
     async function handleDelete(Id) {
-      let res = await axios.delete(`http://localhost:4000/coord-api/assignment/${Id}`);
+      let res = await axios.delete(`${process.env.REACT_APP_API_URL}/coord-api/assignment/${Id}`);
       if(res.data.message === 'Assignment deleted'){
           getAssignments();
           setCurrentSnackbar({message: 'Assignment has been deleted!', icon: DeleteIcon, backgroundColor: 'red', color: 'white'});

@@ -9,7 +9,7 @@ function Schedule() {
     let {currentUser} = useSelector(state => state.allUserLoginReducer)
 
     async function getClassInfo(){
-        let res = await axios.get(`http://localhost:4000/student-api/classInfo/${currentUser.classId}`);
+        let res = await axios.get(`${process.env.REACT_APP_API_URL}/student-api/classInfo/${currentUser.classId}`);
         
         console.log(res)
         if(res.data.message === "Class details found"){
@@ -27,7 +27,7 @@ function Schedule() {
   return (
     <div>
         <Box height={100} />
-        {classInfo.timeTable.length === 0?
+        {classInfo?.timeTable.length === 0?
         <>
             <h2 className='text-center text-danger'>No Class found</h2>
         </>

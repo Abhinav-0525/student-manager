@@ -24,7 +24,7 @@ function StudentDetails() {
         e.preventDefault();
         console.log(photo)
         let tempStudent = {...user, hasPhoto: true, profilePhoto: photo};
-        let res = await axios.put('http://localhost:4000/student-api/profile-photo', tempStudent);
+        let res = await axios.put(`${process.env.REACT_APP_API_URL}/student-api/profile-photo`, tempStudent);
         console.log(res);
         if(res.data.message === "Profile photo updated"){
             setHasPic(true);
