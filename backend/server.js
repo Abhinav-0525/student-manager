@@ -25,8 +25,16 @@ const adminApp = require('./APIs/admin-api')
 //importing mongoclint
 const mongoClint = require('mongodb').MongoClient;
 
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    ssl: true,
+    tlsAllowInvalidCertificates: false,
+    tlsInsecure: false
+  };
+
 //Connecting to mongodb
-mongoClint.connect(process.env.MONGO_URI)
+mongoClint.connect(process.env.MONGO_URI, options)
 .then(client=>{
     //Getting db object
     const db = client.db('studentManager');
@@ -68,8 +76,9 @@ app.use((err, req, res, next)=>{
     res.send({message:"Error",payload:err.message});
 })
 
+const port = process.env.PORT || 4000;
 //Assigning port to the server
-app.listen(process.env.PORT,()=>{
+app.listen(port,()=>{
     console.log('server is running...')
 })
 
