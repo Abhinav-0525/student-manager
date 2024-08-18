@@ -161,7 +161,7 @@ studentApp.put('/assignment/:email',upload.single('file'), expressAsyncHandler(a
         name: dbstudent.name,
         rollno: dbstudent.rollno,
         file: req.file.filename,
-        uploadedOn: new Date().setUTCHours(0, 0, 0, 0)
+        uploadedOn: new Date()
     }
     console.log(req.body.id)
     let result = await assignmentCollection.updateOne({_id: new ObjectId(req.body.id)}, {$addToSet: {submissions: assignment}});

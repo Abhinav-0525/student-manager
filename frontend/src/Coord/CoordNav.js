@@ -198,7 +198,7 @@ function CoordNav() {
               horizontal: 'right',
             }}
           >
-            <MenuItem onClick={()=>navigate('/student/change-photo')}>Change Photo</MenuItem>
+            <MenuItem onClick={()=>navigate('/coord/change-photo')}>Change Photo</MenuItem>
             <MenuItem onClick={handleProfileClick}>Change Password</MenuItem>
             <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
           </Menu>

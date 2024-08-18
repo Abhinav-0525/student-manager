@@ -13,15 +13,22 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Link} from 'react-router-dom'
 import { Snackbar, SnackbarContent } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { Button, Popover, Space } from 'antd';
+import InfoIcon from '@mui/icons-material/Info';
+import { grey } from '@mui/material/colors';
 
 function Login() {
   let navigate = useNavigate();
   let{register,handleSubmit,formState:{errors}} = useForm();
   let dispatch = useDispatch();
   let {loginStatus,currentUser, userType, snackBar} = useSelector(state => state.allUserLoginReducer)
-
-
   const [showPassword, setShowPassword] = useState(false);
+  const content = (
+    <div>
+      <p>Email: abhinavsai.janipireddy@gmail.com</p>
+      <p>Password: 12345678</p>
+    </div>
+  );
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -56,7 +63,8 @@ function Login() {
         <img  src={book} className="background-image"/>
         <form className='m-auto bg-white login-form w-50 mt-5 border border-3 p-4' onSubmit={handleSubmit(handleSubmitButton)} >
 
-          <div>
+        <div className='d-flex justify-content-evenly'>
+          <div> {/*Container for holding role names and pictures*/}
           <label htmlFor=" login" className='form-label mb-4  '>Login as</label>
           <div className='form-check form-check-inline'>
             <input type="radio" className='form-check-input ' id="coord" value="coord" {...register("userType")}/>
@@ -95,8 +103,19 @@ function Login() {
             </label>
           </div>
           </div>
+          <div>
+          <Space wrap>
+            <Popover content={content} title="Demo Credentials for all roles:" trigger="hover">
+              <Button style={{
+                border: 'none', 
+                boxShadow: 'none'
+                }} >
+                <InfoIcon sx={{color: grey[500]}}/></Button>
+            </Popover>
+          </Space>
+          </div>
+        </div>
 
-          
           <div className='mb-3'>
             <label htmlFor=" email" className='form-label mb-2'>Email ID</label>
             <input type='email' id="email" className='form-control ' {...register("email",{required:true})}></input>

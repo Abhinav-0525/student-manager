@@ -11,10 +11,11 @@ function StudentToDo() {
     let [todos, setTodos] = useState([]);
     const [task, setTask] = useState("");
     let {currentUser} = useSelector(state=>state.allUserLoginReducer)
+    let [reloadTodos, setReloadTodos] = useState(false);
 
     useEffect(() => {
         getTodos();
-    },[])
+    },[reloadTodos])
 
     async function getTodos() {
         let res = await axios.get(`${process.env.REACT_APP_API_URL}/student-api/todo/${currentUser.email}`)
@@ -32,7 +33,8 @@ function StudentToDo() {
         let res =  await axios.put(`${process.env.REACT_APP_API_URL}/student-api/todo/${currentUser.email}`, newTodo)
         if(res.data.message === "Todo added"){
             console.log("Todo added");
-            window.location.reload();
+            setReloadTodos(!reloadTodos);
+            //window.location.reload(); -- causing unexpected behaviour
         }
     }
 
