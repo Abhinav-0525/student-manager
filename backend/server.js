@@ -81,17 +81,7 @@ app.listen(port,()=>{
 })
 
 
-// features to implement:
-// implement change password with otp verification  -- done
-// create class with class id, teacher list, subjects and student list  -- done
-// connect frontend and backend  -- done
-// implement middleware to prevent refresh -- done
-// change profile pic of students -- done
-//implement todo list for students -- done
-// Add photo to profile -- done
-//Assignments - they should expire after a certain time -- done
-//Holidays - they should expire after a certain time --done -- need to add
-//new students and teachers doesnt have the property of class id -- done
+
 
 //teacher password - tfrN0VqQ5/ -- 12345678
 //student password - /Oh?fWnXII -- 1234567 -- abhinav
