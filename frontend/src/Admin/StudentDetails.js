@@ -57,33 +57,6 @@ function StudentDetails() {
     <div className='bg-secondary p-3 mt-3'>
         <div className='parent row-cols-sm-1'>
             <div className='me-3  bg-white'>
-                {/* {userType === "admin" || userType === "coord" || hasPic=== true?
-                <>
-                    <div className='justify-content-center text-center d-flex '>
-                        <img className='img mx-auto mt-3' src={user.profilePhoto || ProfilePic } alt="" />
-                    </div>
-                </>:<>
-                    <div>
-                        <form onSubmit={handleSubmit} className='row g-3 mx-auto'>
-                            <label htmlFor="file-upload" className=' justify-content-center' >
-                                <img className='img mt-3' style={{cursor:'pointer'}} src={user.profilePhoto || ProfilePic} alt="" />
-                            </label>
-                            <input 
-                                type="file"
-                                lable="Image"
-                                name="myFile"
-                                id='file-upload'
-                                accept="image/png, image/jpeg"
-                                style={{display:'none'}}
-                                
-                                onChange={(e)=>{
-                                    handleFileUpload(e)
-                                }}
-                            />
-                            <button className='btn btn-primary mt-3 mx-auto' type='submit'>Upload image</button>
-                        </form>
-                    </div>
-                </>} */}
                 <div className='justify-content-center text-center d-flex '>
                     <img className='img mx-auto mt-3' src={user.profilePhoto || ProfilePic } alt="" />
                 </div>
