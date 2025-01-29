@@ -13,8 +13,12 @@ app.use('/files',exp.static('files'))
 //To parse the body of req
 app.use(exp.json());
 
-//For adding images
-app.use(cors());
+//For enabling cors
+app.use(cors({
+    origin: '*', // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+    credentials: true
+}));
 
 //Importing the APIs to server
 const coordApp = require('./APIs/coord-api')
