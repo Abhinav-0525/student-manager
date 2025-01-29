@@ -15,7 +15,7 @@ app.use(exp.json());
 
 //For enabling cors
 app.use(cors({
-    origin: '*', // Allow all origins
+    origin: ["https://my-class-hub.vercel.app"], // Allow all origins
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
     credentials: true
 }));
