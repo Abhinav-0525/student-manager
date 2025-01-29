@@ -16,6 +16,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { Button, Popover, Space } from 'antd';
 import InfoIcon from '@mui/icons-material/Info';
 import { grey } from '@mui/material/colors';
+import {  Spin } from 'antd';
 
 function Login() {
   let navigate = useNavigate();
@@ -23,6 +24,8 @@ function Login() {
   let dispatch = useDispatch();
   let {loginStatus,currentUser, userType, snackBar} = useSelector(state => state.allUserLoginReducer)
   const [showPassword, setShowPassword] = useState(false);
+  const [spinning, setSpinning] = useState(false);
+
   const content = (
     <div>
       <p>Email: abhinavsai.janipireddy@gmail.com</p>
@@ -35,12 +38,19 @@ function Login() {
   };
 
   const handleSubmitButton = (data) => {
-    console.log(data);
-    dispatch(userLoginThunk(data));
+    //console.log(data);
+    setSpinning(true);
+    setTimeout(()=>{
+      dispatch(userLoginThunk(data));
+      setSpinning(false);
+    },5000);
+    // dispatch(userLoginThunk(data));
+    
   }
 
   useEffect(()=>{
       if(loginStatus===true){
+        setSpinning(false);
         if(userType==='coord'){
           navigate('coord')
         }
@@ -51,6 +61,7 @@ function Login() {
             navigate('student')
           }
       }
+      
   },[loginStatus])
 
   function handleClose(){
@@ -60,6 +71,7 @@ function Login() {
 
     return (
       <div login-container>
+        
         <img  src={book} className="background-image"/>
         <form className='m-auto bg-white login-form w-50 mt-5 border border-3 p-4' onSubmit={handleSubmit(handleSubmitButton)} >
 
@@ -158,6 +170,7 @@ function Login() {
         }}
       />
     </Snackbar>
+    <Spin spinning={spinning} fullscreen />
         
       </div>
     )
